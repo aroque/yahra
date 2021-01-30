@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cb33b58f9874450d8aa6e3e244230992" Name="Diagram1">
+        <EntityTypeShape EntityType="YAHRA_DBModel.department" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="YAHRA_DBModel.employee_status" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="YAHRA_DBModel.employee" Width="1.5" PointX="3" PointY="2.75" />
+        <AssociationConnector Association="YAHRA_DBModel.fk_employee_department" />
+        <AssociationConnector Association="YAHRA_DBModel.fk_employee_employee_status" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
