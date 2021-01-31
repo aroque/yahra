@@ -17,6 +17,8 @@ namespace YAHRA.App_Start
     using YAHRA.Mappers;
     using YAHRA.Repositories;
     using YAHRA.Repositories.Interfaces;
+    using YAHRA.SMTPClient;
+    using YAHRA.SMTPClient.Interface;
 
     public static class NinjectWebCommon 
     {
@@ -46,10 +48,10 @@ namespace YAHRA.App_Start
         /// <returns>The created kernel.</returns>
         private static IKernel CreateKernel()
         {
-            var kernel = new StandardKernel(new AutoMapperModule());
+            var kernel = new StandardKernel();
             var mapperConfiguration = new MapperConfiguration(
                 cfg => { 
-                    cfg.AddProfile<EmployeeMapperProfile>();
+                    cfg.AddProfile<EmployeeDtoToEmployeeMapperProfile>();
                 });
             kernel.Bind<IMapper>().ToConstructor(c => new Mapper(mapperConfiguration)).InSingletonScope();
 
@@ -66,6 +68,11 @@ namespace YAHRA.App_Start
         {
             kernel.Bind<IEmployeeRepository>().To<EmployeeRepository>();
             kernel.Bind<IEmployeeService>().To<EmployeeService>();
+            kernel.Bind<IDepartmentRepository>().To<DepartmentRepository>();
+            kernel.Bind<IDepartmentService>().To<DepartmentService>();
+            kernel.Bind<IEmployeeStatusRepository>().To<EmployeeStatusRepository>();
+            kernel.Bind<IEmployeeStatusService>().To<EmployeeStatusService>();
+            kernel.Bind<IBasicSmtpClient>().To<BasicSmtpClient>();
         }
     }
 }

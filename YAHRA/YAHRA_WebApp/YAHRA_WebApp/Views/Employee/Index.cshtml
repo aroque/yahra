@@ -1,0 +1,92 @@
+﻿
+@using YAHRA.Models
+@using PagedList.Mvc;
+@model YAHRA_WebApp.ViewModels.EmployeeListViewModel
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.DropDownList("Department", new SelectList(Model.Departments, "Name", "Name"), "Select Company", new { @class = "form-control" })
+    @Html.DropDownList("EmployeeStatus", new SelectList(Model.EmployeeStatuses, "Name", "Name"), "Select Status", new { @class = "form-control" })
+    <input type="submit" value="Search" class="btn btn-primary" />
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("ID", "Index", new { sortingOrder = SortingEnum.ID })
+        </th>
+        <th>
+            @Html.ActionLink("Name", "Index", new { sortingOrder = SortingEnum.NAME })
+        </th>
+        <th>
+            @Html.ActionLink("Date of Birth", "Index", new { sortingOrder = SortingEnum.DATE_OF_BIRTH })
+        </th>
+        <th>
+            @Html.ActionLink("Department Name", "Index", new { sortingOrder = SortingEnum.DEPARTMENT_NAME })
+        </th>
+        <th>
+            @Html.ActionLink("Status", "Index", new { sortingOrder = SortingEnum.STATUS })
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Employees)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(@Html.DisplayFor(modelItem => item.Id).ToHtmlString(), "Edit", new { id = item.Id })
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeStatus.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "deleteBtn" })
+            </td>
+        </tr>
+    }
+
+</table>
+<br/>
+Page @(ViewBag.PageCount < ViewBag.PageNumber ? 0 : ViewBag.PageNumber) of @ViewBag.PageCount
+
+@section scripts{
+
+    <script>
+        $('.deleteBtn').click(function (event) {
+            event.preventDefault();
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: event.target.href,
+                success: function (data) {
+                    alert(data);
+                    window.location.href = 'Employee/Index';
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.status + ",  " + jqXHR.statusText + ",  " + textStatus + ",  " + errorThrown);
+                }
+            })
+        });
+    </script>
+}
